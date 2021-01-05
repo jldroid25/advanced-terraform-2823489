@@ -6,7 +6,7 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 
 variable "bucket_name" {
-  default = "red30-tfstate"
+  default = "jl12-red30-tfstate"
 }
 
 # //////////////////////////////
@@ -21,14 +21,14 @@ provider "aws" {
 # //////////////////////////////
 # TERRAFORM USER
 # //////////////////////////////
-data "aws_iam_user" "terraform" {
-  user_name = "terraform"
+data "aws_iam_user" "jldacity1" {
+  user_name = "jldacity1"
 }
 
 # //////////////////////////////
 # S3 BUCKET
 # //////////////////////////////
-resource "aws_s3_bucket" "red30-tfremotestate" {
+resource "aws_s3_bucket" "jl12-red30-tfremotestate" {
   bucket = var.bucket_name
   force_destroy = true
   acl = "private"
@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "red30-tfremotestate" {
             "Sid": "",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "${data.aws_iam_user.terraform.arn}"
+                "AWS": "${data.aws_iam_user.jldacity1.arn}"
             },
             "Action": "s3:*",
             "Resource": "arn:aws:s3:::${var.bucket_name}/*"
@@ -56,8 +56,8 @@ resource "aws_s3_bucket" "red30-tfremotestate" {
 EOF
 }
 
-resource "aws_s3_bucket_public_access_block" "red30-tfremotestate" {
-  bucket = aws_s3_bucket.red30-tfremotestate.id
+resource "aws_s3_bucket_public_access_block" "jl12-red30-tfremotestate" {
+  bucket = aws_s3_bucket.jl12-red30-tfremotestate.id
 
   block_public_acls   = true
   block_public_policy = true
@@ -84,8 +84,8 @@ resource "aws_dynamodb_table" "tf_db_statelock" {
 # IAM POLICY
 # //////////////////////////////
 resource "aws_iam_user_policy" "terraform_user_dbtable" {
-  name = "terraform"
-  user = data.aws_iam_user.terraform.user_name
+  name = "jldacity1"
+  user = data.aws_iam_user.jldacity1.user_name
   policy = <<EOF
 {
     "Version": "2012-10-17",

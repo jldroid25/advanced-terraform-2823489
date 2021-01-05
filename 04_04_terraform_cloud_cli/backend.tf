@@ -1,6 +1,6 @@
 terraform {
   backend "remote" {
-    organization = "red30"
+    organization = "jldroid25"
 
     workspaces {
       name = "cli-workspace"
